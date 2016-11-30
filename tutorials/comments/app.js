@@ -1,15 +1,19 @@
-var parentAuthor = 'siol';
-var parentPermlink = 'test-periscope';
-
 angular.module('app', [])
   .controller('Main', function($scope) {
     var self = this;
 
+    steemconnect.init({
+      baseURL: 'https://dev.steemconnect.com',
+      app: 'simple-app',
+      callbackURL: 'https://bonustrack.github.io/tutorials/comments/'
+    });
+
+    $scope.parentAuthor = 'siol';
+    $scope.parentPermlink = 'test-periscope';
     $scope.comments = {};
     $scope.isAuth = false;
+    $scope.loginURL = steemconnect.getLoginURL();
 
-    steemconnect.setBaseUrl('https://dev.steemconnect.com');
-    steemconnect.setApp('simple-app');
     steemconnect.isAuthenticated(function(err, result) {
       if (!err && result.isAuthenticated) {
         $scope.isAuth = true;
@@ -19,7 +23,7 @@ angular.module('app', [])
     });
 
     this.loadComments = function() {
-      steem.api.getContentReplies(parentAuthor, parentPermlink, function(err, result) {
+      steem.api.getContentReplies($scope.parentAuthor, $scope.parentPermlink, function(err, result) {
         if (!err) {
           $scope.comments = result;
           $scope.$apply();
@@ -29,6 +33,10 @@ angular.module('app', [])
 
     this.isAuth = function() {
       return $scope.isAuth;
+    };
+
+    this.getLoginURL = function() {
+      return steemconnect.getLoginURL();
     };
 
     this.submit = function() {
