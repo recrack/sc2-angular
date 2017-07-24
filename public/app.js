@@ -1,7 +1,7 @@
 sc2.init({
   baseURL: 'https://v2.steemconnect.com',
   app: 'busy.app',
-  callbackURL: 'http://localhost:3000',
+  callbackURL: 'https://sc2-angular.herokuapp.com',
   scope: ['vote', 'comment']
 });
 
