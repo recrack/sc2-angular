@@ -57,3 +57,14 @@ typings/
 # dotenv environment variables file
 .env
 
+.idea
+.idea/encodings.xml
+.idea/inspectionProfiles/
+.idea/jsLibraryMappings.xml
+.idea/misc.xml
+.idea/modules.xml
+.idea/runConfigurations/
+.idea/sc2-angular.iml
+.idea/workspace.xml
+package-lock.json
+sc2-angular.iml
