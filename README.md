@@ -1,8 +1,8 @@
 # sc2-angular
 SteemConnect2 with AngularJS
 
-# Instalation
+# Installation
 
     npm install
     npm start
-    # application should be available at: http://0.0.0.0:3000/
+    # application should be available at: http://localhost:3000/
