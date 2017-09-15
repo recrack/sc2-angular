@@ -1,3 +1,5 @@
+This repo is being deprecated. Please check out https://github.com/steemit/sc2-angular.
+
 # Tutorial: Build a simple app on Steem blockchain using Steem Connect
 
 On this tutorial we will create a simple comment box for Steem blockchain post
