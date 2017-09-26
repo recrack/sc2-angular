@@ -2,7 +2,6 @@
 <html lang="en" ng-app="app">
 <head>
   <title>Demo</title>
-  <base href="/" />
   <meta charset="UTF-8">
   <meta id="viewport" name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -10,9 +9,9 @@
   <link rel="stylesheet" href="//at.alicdn.com/t/font_ykgtxz90gjve7b9.css">
   <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
   <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
-  <script src="/sc2.min.js"></script>
+  <script src="https://steemit.github.io/sc2-angular/sc2.min.js"></script>
   <script src="//cdn.steemjs.com/lib/latest/steem.min.js"></script>
-  <script src="app.js"></script>
+  <script src="https://steemit.github.io/sc2-angular/app.js"></script>
   <style>
     hr { margin: 40px 0; }
     h3 { margin-bottom: 20px; }
@@ -31,7 +30,7 @@
   <hr />
   <div>
     <h3>Login & logout</h3>
-    <b ng-show="isAuth()"><img src="//img.steemconnect.com/@{{user.name}}?s=32" width="32" height="32"> @{{user.name}}</b>
+    <b ng-show="isAuth()"><img src="//img.busy.org/@{{user.name}}?s=32" width="32" height="32"> @{{user.name}}</b>
     <button ng-show="isAuth()" class="ml-2 btn btn-secondary" type="submit" ng-click="logout()">
       Logout
     </button>
