@@ -1,38 +1,93 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-
-var app = express();
-
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-
-app.use('/', require('./routes'));
-
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
+sc2.init({
+  baseURL: 'https://v2.steemconnect.com',
+  app: 'busy.app',
+  callbackURL: 'https://sc2-angular.herokuapp.com',
+  scope: ['vote', 'comment']
 });
 
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+angular.module('app', [])
+  .config(['$locationProvider', function($locationProvider){
+    $locationProvider.html5Mode(true);
+  }])
+  .controller('Main', function($scope, $location, $http) {
+    $scope.loading = false;
+    $scope.parentAuthor = 'siol';
+    $scope.parentPermlink = '5vdmjq-test';
+    $scope.accessToken = $location.search().access_token;
+    $scope.expiresIn = $location.search().expires_in;
+    $scope.loginURL = sc2.getLoginURL();
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
+    if ($scope.accessToken) {
+      sc2.setAccessToken($scope.accessToken);
+      sc2.me(function (err, result) {
+        console.log('/me', err, result);
+        if (!err) {
+          $scope.user = result.account;
+          $scope.metadata = JSON.stringify(result.user_metadata, null, 2);
+          $scope.$apply();
+        }
+      });
+    }
 
-module.exports = app;
+    $scope.isAuth = function() {
+      return !!$scope.user;
+    };
+
+    $scope.loadComments = function() {
+      steem.api.getContentReplies($scope.parentAuthor, $scope.parentPermlink, function(err, result) {
+        if (!err) {
+          $scope.comments = result.slice(-5);
+          $scope.$apply();
+        }
+      });
+    };
+
+    $scope.comment = function() {
+      $scope.loading = true;
+      var permlink = steem.formatter.commentPermlink($scope.parentAuthor, $scope.parentPermlink);
+      sc2.comment($scope.parentAuthor, $scope.parentPermlink, $scope.user.name, permlink, '', $scope.message, '', function(err, result) {
+        console.log(err, result);
+        $scope.message = '';
+        $scope.loading = false;
+        $scope.$apply();
+        $scope.loadComments();
+      });
+    };
+
+    $scope.vote = function(author, permlink, weight) {
+      sc2.vote($scope.user.name, author, permlink, weight, function (err, result) {
+        if (!err) {
+          alert('You successfully vote for @' + author + '/' + permlink);
+          console.log('You successfully vote for @siol/test', err, result);
+          $scope.loadComments();
+        } else {
+          console.log(err);
+        }
+      });
+    };
+
+    $scope.updateUserMetadata = function(metadata) {
+      sc2.updateUserMetadata(metadata, function (err, result) {
+        if (!err) {
+          alert('You successfully updated user_metadata');
+          console.log('You successfully updated user_metadata', result);
+          if (!err) {
+            $scope.user = result.account;
+            $scope.metadata = JSON.stringify(result.user_metadata, null, 2);
+            $scope.$apply();
+          }
+        } else {
+          console.log(err);
+        }
+      });
+    };
+
+    $scope.logout = function() {
+      sc2.revokeToken(function (err, result) {
+        console.log('You successfully logged out', err, result);
+        delete $scope.user;
+        delete $scope.accessToken;
+        $scope.$apply();
+      });
+    };
+  });
