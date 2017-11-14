@@ -57,8 +57,8 @@ angular.module('app', [])
     $scope.vote = function(author, permlink, weight) {
       sc2.vote($scope.user.name, author, permlink, weight, function (err, result) {
         if (!err) {
-          alert('You successfully vote for @' + author + '/' + permlink);
-          console.log('You successfully vote for @siol/test', err, result);
+          alert('You successfully voted for @' + author + '/' + permlink);
+          console.log('You successfully voted for @' + author + '/' + permlink, err, result);
           $scope.loadComments();
         } else {
           console.log(err);
