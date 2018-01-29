@@ -1,6 +1,6 @@
 sc2.init({
   app: 'busy.app',
-  callbackURL: 'https://steemit.github.io/sc2-angular',
+  callbackURL: 'sc2-angular.recrack.com',
   scope: ['vote', 'comment']
 });
 
@@ -10,8 +10,8 @@ angular.module('app', [])
   }])
   .controller('Main', function($scope, $location, $http) {
     $scope.loading = false;
-    $scope.parentAuthor = 'siol';
-    $scope.parentPermlink = '5vdmjq-test';
+    $scope.parentAuthor = 'recrack';
+    $scope.parentPermlink = 'easy-to-use-steemit-01-29';
     $scope.accessToken = $location.search().access_token;
     $scope.expiresIn = $location.search().expires_in;
     $scope.loginURL = sc2.getLoginURL();
