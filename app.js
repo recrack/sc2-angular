@@ -1,5 +1,4 @@
 sc2.init({
-  baseURL: 'https://v2.steemconnect.com',
   app: 'busy.app',
   callbackURL: 'https://steemit.github.io/sc2-angular',
   scope: ['vote', 'comment']
