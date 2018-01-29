@@ -1,6 +1,6 @@
 sc2.init({
   app: 'busy.app',
-  callbackURL: 'sc2-angular.recrack.com',
+  callbackURL: 'http://sc2-angular.recrack.com',
   scope: ['vote', 'comment']
 });
 
