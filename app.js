@@ -1,5 +1,5 @@
 sc2.init({
-  app: 'busy.app',
+  app: 'steemtree',
   callbackURL: 'http://sc2-angular.recrack.com',
   scope: ['vote', 'comment']
 });
